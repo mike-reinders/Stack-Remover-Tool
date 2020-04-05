@@ -8,4 +8,24 @@ public interface MappingInterface {
 
     public Map<String, String> getMapping();
 
+    public default String getReplacement(String origin) {
+        for (Map.Entry<String, String> entry : this.getMapping().entrySet()) {
+            if (entry.getKey().equals(origin)) {
+                return entry.getValue();
+            }
+        }
+
+        return null;
+    }
+
+    public default String getOrigin(String replacement) {
+        for (Map.Entry<String, String> entry : this.getMapping().entrySet()) {
+            if (entry.getValue().equals(replacement)) {
+                return entry.getKey();
+            }
+        }
+
+        return null;
+    }
+
 }
