@@ -70,7 +70,15 @@ public class MapClassesCommand extends Command {
             className = obj.getClassString();
             origin = mapping.getOrigin(className);
 
-            if (origin != null) {
+            if (origin == null) {
+                if (className.contains("_US_C") && debug) {
+                    strBuilder.append(System.lineSeparator());
+                    strBuilder.append("# ");
+                    strBuilder.append(StringC.pad(Pad.RIGHT, String.valueOf(obj.getId()), idWidth));
+                    strBuilder.append("Failed to map replacement class: ");
+                    strBuilder.append(className);
+                }
+            } else {
                 obj.setClassString(origin);
                 if (debug) {
                     strBuilder.append(System.lineSeparator());
