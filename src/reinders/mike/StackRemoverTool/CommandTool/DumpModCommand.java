@@ -347,6 +347,18 @@ public class DumpModCommand extends Command {
                 throw new RuntimeException("Unexpectedly missing origin blueprint");
             }
 
+            uAssetMappingContent.setBlueprintOrigin(
+                    uAssetMappingContent.getBlueprintOrigin()
+                            + "."
+                            + uAssetMappingContent.getClassOrigin()
+            );
+
+            uAssetMappingContent.setBlueprintReplacement(
+                    uAssetMappingContent.getBlueprintReplacement()
+                            + "."
+                            + uAssetMappingContent.getClassReplacement()
+            );
+
             return uAssetMappingContent;
         }
 
