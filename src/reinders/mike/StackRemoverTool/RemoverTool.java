@@ -5,7 +5,7 @@ import reinders.mike.StackRemoverTool.Util.ThrowableC;
 
 public final class RemoverTool {
 
-    public static final String MERGE_TOOL_VERSION = "1.0";
+    public static final String MERGE_TOOL_VERSION = "1.1";
 
     private static reinders.mike.StackRemoverTool.Command.CommandManager commandManager = new CommandManager();
 
