@@ -62,18 +62,22 @@ public class DumpModCommand extends Command {
             try {
                 UAssetMappingContent uAssetMappingContent = UAssetMappingContent.fromFile(path);
 
-                if (this.isArgument("blueprints")) {
-                    System.out.println(
-                            pattern
-                            .replace("$1", uAssetMappingContent.getBlueprintOrigin())
-                            .replace("$2", uAssetMappingContent.getBlueprintReplacement())
-                    );
-                } else if (this.isArgument("classes")) {
-                    System.out.println(
-                            pattern
-                            .replace("$1", uAssetMappingContent.getClassOrigin())
-                            .replace("$2", uAssetMappingContent.getClassReplacement())
-                    );
+                if (!uAssetMappingContent.getClassOrigin().startsWith("EngramEntry_")
+                    && !uAssetMappingContent.getClassReplacement().startsWith("EngramEntry_")
+                ) {
+                    if (this.isArgument("blueprints")) {
+                        System.out.println(
+                                pattern
+                                .replace("$1", uAssetMappingContent.getBlueprintOrigin())
+                                .replace("$2", uAssetMappingContent.getBlueprintReplacement())
+                        );
+                    } else if (this.isArgument("classes")) {
+                        System.out.println(
+                                pattern
+                                .replace("$1", uAssetMappingContent.getClassOrigin())
+                                .replace("$2", uAssetMappingContent.getClassReplacement())
+                        );
+                    }
                 }
             } catch (Throwable throwable) {
                 //System.out.println(ThrowableC.toString(throwable));
