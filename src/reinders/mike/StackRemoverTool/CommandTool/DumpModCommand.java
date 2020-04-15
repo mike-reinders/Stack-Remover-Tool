@@ -16,13 +16,17 @@ import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
-import java.util.regex.Pattern;
 
 public class DumpModCommand extends Command {
 
     @Override
     public String getName() {
         return "dump-mod";
+    }
+
+    @Override
+    public String getDescription() {
+        return "Dumps all references and classes by a given path";
     }
 
     @Override
