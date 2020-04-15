@@ -16,6 +16,7 @@ import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+import java.util.regex.Pattern;
 
 public class DumpModCommand extends Command {
 
@@ -36,10 +37,19 @@ public class DumpModCommand extends Command {
             return true;
         }
 
+        String pattern;
+        if (this.getParameters().length >= 2) {
+            pattern = this.getParameters()[1];
+        } else {
+            pattern = "$1 => $2";
+        }
+
         //debugFile(Paths.get("D:\\Steam\\steamapps\\common\\ARK\\ShooterGame\\Content\\Mods\\761535755\\Weapons\\PrimalItem_PlantSpeciesZ_Grenade_US.uasset"));
         //debugFile(Paths.get("D:\\Steam\\steamapps\\common\\ARK\\ShooterGame\\Content\\Mods\\761535755\\Seeds\\PrimalItemConsumable_Seed_Savoroot_US.uasset"));
 
         Path modPath = Paths.get(this.getParameters()[0]);
+
+        System.out.println("Using pattern: " + pattern);
 
         Files.walk(modPath)
         .filter(Files::isRegularFile)
@@ -53,13 +63,17 @@ public class DumpModCommand extends Command {
                 UAssetMappingContent uAssetMappingContent = UAssetMappingContent.fromFile(path);
 
                 if (this.isArgument("blueprints")) {
-                    System.out.print(uAssetMappingContent.getBlueprintOrigin());
-                    System.out.print(" => ");
-                    System.out.println(uAssetMappingContent.getBlueprintReplacement());
+                    System.out.println(
+                            pattern
+                            .replace("$1", uAssetMappingContent.getBlueprintOrigin())
+                            .replace("$2", uAssetMappingContent.getBlueprintReplacement())
+                    );
                 } else if (this.isArgument("classes")) {
-                    System.out.print(uAssetMappingContent.getClassOrigin());
-                    System.out.print(" => ");
-                    System.out.println(uAssetMappingContent.getClassReplacement());
+                    System.out.println(
+                            pattern
+                            .replace("$1", uAssetMappingContent.getClassOrigin())
+                            .replace("$2", uAssetMappingContent.getClassReplacement())
+                    );
                 }
             } catch (Throwable throwable) {
                 //System.out.println(ThrowableC.toString(throwable));
