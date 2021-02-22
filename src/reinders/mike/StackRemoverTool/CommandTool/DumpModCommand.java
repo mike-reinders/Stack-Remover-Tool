@@ -48,8 +48,11 @@ public class DumpModCommand extends Command {
             pattern = "$1 => $2";
         }
 
-        //debugFile(Paths.get("D:\\Steam\\steamapps\\common\\ARK\\ShooterGame\\Content\\Mods\\761535755\\Weapons\\PrimalItem_PlantSpeciesZ_Grenade_US.uasset"));
-        //debugFile(Paths.get("D:\\Steam\\steamapps\\common\\ARK\\ShooterGame\\Content\\Mods\\761535755\\Seeds\\PrimalItemConsumable_Seed_Savoroot_US.uasset"));
+        /* debugFile(Paths.get("D:\\Steam\\steamapps\\common\\ARK\\ShooterGame\\Content\\Mods\\761535755\\Weapons\\PrimalItem_PlantSpeciesZ_Grenade_US.uasset")); */
+        /* debugFile(Paths.get("D:\\Steam\\steamapps\\common\\ARK\\ShooterGame\\Content\\Mods\\761535755\\Seeds\\PrimalItemConsumable_Seed_Savoroot_US.uasset")); */
+        /* debugFile(Paths.get("D:\\Steam\\steamapps\\common\\ARK\\ShooterGame\\Content\\Mods\\842913750\\Consumables\\PrimalItemConsumable_Berry_Narcoberry_Child.uasset")); */
+
+        debugFile(Paths.get("D:\\Steam\\steamapps\\common\\ARK\\ShooterGame\\Content\\Mods\\842913750\\Consumables\\PrimalItemConsumable_Berry_Narcoberry_Child.uasset"));
 
         Path modPath = Paths.get(this.getParameters()[0]);
 
@@ -58,13 +61,13 @@ public class DumpModCommand extends Command {
         Files.walk(modPath)
         .filter(Files::isRegularFile)
         .filter(path -> path.relativize(modPath).toString().contains("\\"))
-        .filter(path -> path.getFileName().toString().endsWith(".uasset"))
-        .forEach(path -> {
-            //System.out.println();
-            //System.out.println(modPath.relativize(path));
+        .filter(path -> path.getFileName().toString().endsWith(".uasset"));
+        /*.forEach(path -> {
+            System.out.println();
+            System.out.println(modPath.relativize(path));
 
             try {
-                UAssetMappingContent uAssetMappingContent = UAssetMappingContent.fromFile(path);
+                UAssetMappingContent uAssetMappingContent = UAssetMappingContent.fromFile(path, true);
 
                 if (!uAssetMappingContent.getClassOrigin().startsWith("EngramEntry_")
                     && !uAssetMappingContent.getClassReplacement().startsWith("EngramEntry_")
@@ -84,10 +87,10 @@ public class DumpModCommand extends Command {
                     }
                 }
             } catch (Throwable throwable) {
-                //System.out.println(ThrowableC.toString(throwable));
+                System.out.println(ThrowableC.toString(throwable));
                 System.out.println("Error");
             }
-        });
+        });*/
 
         return true;
     }
@@ -269,7 +272,7 @@ public class DumpModCommand extends Command {
 
             for (int i = 0; i < namesCount; i++) {
                 names.add(archive.getString());
-                //System.out.println(names.get(i));
+                System.out.println(names.get(i));
             }
 
             if (debug) {
@@ -289,11 +292,7 @@ public class DumpModCommand extends Command {
                     rawFilename + "_C"
             );
 
-            if (uAssetMappingContent.getClassReplacement().contains("_us")) {
-                uAssetMappingContent.setClassReplacement(
-                        uAssetMappingContent.getClassReplacement().replace("_us", "_US")
-                );
-            }
+            System.out.println("Class Replacement: " + uAssetMappingContent.getClassReplacement());
 
             boolean foundReplacementClass = false;
             for (String name : names) {
@@ -309,9 +308,11 @@ public class DumpModCommand extends Command {
 
             uAssetMappingContent.setClassOrigin(
                     uAssetMappingContent.getClassReplacement()
-                    .substring(0, (uAssetMappingContent.getClassReplacement().length() - 5))
+                    .substring(0, (uAssetMappingContent.getClassReplacement().length() - 8))
                     + "_C"
             );
+
+            System.out.println("Class Origin: " + uAssetMappingContent.getClassOrigin());
 
             boolean foundOriginClass = false;
             for (String name : names) {
@@ -326,7 +327,7 @@ public class DumpModCommand extends Command {
             }
 
             for (String name : names) {
-                if (name.startsWith("/Game/Mods/UltraStacks/") && name.endsWith(rawFilename)) {
+                if (name.startsWith("/Game/Mods/Stack50/") && name.endsWith(rawFilename)) {
                     uAssetMappingContent.setBlueprintReplacement(name);
                     break;
                 }
@@ -341,7 +342,7 @@ public class DumpModCommand extends Command {
                     uAssetMappingContent.getClassOrigin().length() - 2
             );
             for (String name : names) {
-                if (name.startsWith("/Game/") && !name.startsWith("/Game/Mods/UltraStacks/") && name.endsWith(classOriginPathname)) {
+                if (name.startsWith("/Game/") && !name.startsWith("/Game/Mods/Stack50/") && name.endsWith(classOriginPathname)) {
                     uAssetMappingContent.setBlueprintOrigin(name);
                     break;
                 }
