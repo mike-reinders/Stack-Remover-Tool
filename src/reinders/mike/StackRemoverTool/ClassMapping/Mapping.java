@@ -10,6 +10,7 @@ public final class Mapping {
     static {
         Mapping.mappingList.add(new UltraStacks());
         Mapping.mappingList.add(new HGStackingMod());
+        Mapping.mappingList.add(new MTSStackingMod());
     }
 
     private Mapping() {
