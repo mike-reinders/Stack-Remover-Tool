@@ -9,6 +9,7 @@ public final class Mapping {
 
     static {
         Mapping.mappingList.add(new UltraStacks());
+        Mapping.mappingList.add(new HGStackingMod());
     }
 
     private Mapping() {
