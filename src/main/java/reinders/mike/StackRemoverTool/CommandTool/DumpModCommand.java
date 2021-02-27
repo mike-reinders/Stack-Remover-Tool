@@ -52,7 +52,7 @@ public class DumpModCommand extends Command {
         /* debugFile(Paths.get("D:\\Steam\\steamapps\\common\\ARK\\ShooterGame\\Content\\Mods\\761535755\\Seeds\\PrimalItemConsumable_Seed_Savoroot_US.uasset")); */
         /* debugFile(Paths.get("D:\\Steam\\steamapps\\common\\ARK\\ShooterGame\\Content\\Mods\\842913750\\Consumables\\PrimalItemConsumable_Berry_Narcoberry_Child.uasset")); */
 
-        debugFile(Paths.get("D:\\Steam\\steamapps\\common\\ARK\\ShooterGame\\Content\\Mods\\842913750\\Consumables\\PrimalItemConsumable_Berry_Narcoberry_Child.uasset"));
+        debugFile(Paths.get("D:\\Steam\\steamapps\\common\\ARK\\ShooterGame\\Content\\Mods\\2047318996\\Ammo\\PrimalItemAmmo_RefinedTranqDart_Child.uasset"));
 
         Path modPath = Paths.get(this.getParameters()[0]);
 
@@ -63,11 +63,11 @@ public class DumpModCommand extends Command {
         .filter(path -> path.relativize(modPath).toString().contains("\\"))
         .filter(path -> path.getFileName().toString().endsWith(".uasset"));
         /*.forEach(path -> {
-            System.out.println();
-            System.out.println(modPath.relativize(path));
+            /// System.out.println();
+            /// System.out.println(modPath.relativize(path));
 
             try {
-                UAssetMappingContent uAssetMappingContent = UAssetMappingContent.fromFile(path, true);
+                UAssetMappingContent uAssetMappingContent = UAssetMappingContent.fromFile(path, false);
 
                 if (!uAssetMappingContent.getClassOrigin().startsWith("EngramEntry_")
                     && !uAssetMappingContent.getClassReplacement().startsWith("EngramEntry_")
@@ -87,7 +87,7 @@ public class DumpModCommand extends Command {
                     }
                 }
             } catch (Throwable throwable) {
-                System.out.println(ThrowableC.toString(throwable));
+                //System.out.println(ThrowableC.toString(throwable));
                 System.out.println("Error");
             }
         });*/
@@ -232,7 +232,7 @@ public class DumpModCommand extends Command {
             }
 
             if (debug) {
-                System.out.println(StringC.pad(Pad.LEFT, "zeros", leftColumnWidth) + " 16x");
+                System.out.println(StringC.pad(Pad.LEFT, "zeros", leftColumnWidth) + " 22x");
             }
 
             int unknown8 = archive.getInt();
@@ -251,6 +251,7 @@ public class DumpModCommand extends Command {
 
             // Offsets
             int unknown8offset = archive.getInt();
+            // points to last possible integer offset
             int unknown9offset = archive.getInt();
 
             if (debug) {
@@ -292,7 +293,9 @@ public class DumpModCommand extends Command {
                     rawFilename + "_C"
             );
 
-            System.out.println("Class Replacement: " + uAssetMappingContent.getClassReplacement());
+            if (debug) {
+                System.out.println("Class Replacement: " + uAssetMappingContent.getClassReplacement());
+            }
 
             boolean foundReplacementClass = false;
             for (String name : names) {
@@ -312,7 +315,9 @@ public class DumpModCommand extends Command {
                     + "_C"
             );
 
-            System.out.println("Class Origin: " + uAssetMappingContent.getClassOrigin());
+            if (debug) {
+                System.out.println("Class Origin: " + uAssetMappingContent.getClassOrigin());
+            }
 
             boolean foundOriginClass = false;
             for (String name : names) {
@@ -333,6 +338,10 @@ public class DumpModCommand extends Command {
                 }
             }
 
+            if (debug) {
+                System.out.println("Blueprint Origin: " + uAssetMappingContent.getBlueprintOrigin());
+            }
+
             if (uAssetMappingContent.getBlueprintReplacement() == null) {
                 throw new RuntimeException("Unexpectedly missing replacement blueprint");
             }
@@ -342,10 +351,14 @@ public class DumpModCommand extends Command {
                     uAssetMappingContent.getClassOrigin().length() - 2
             );
             for (String name : names) {
-                if (name.startsWith("/Game/") && !name.startsWith("/Game/Mods/Stack50/") && name.endsWith(classOriginPathname)) {
+                if (name.startsWith("/Game/") && !name.startsWith("/Game/Mods/Stack500_50/") && name.endsWith(classOriginPathname)) {
                     uAssetMappingContent.setBlueprintOrigin(name);
                     break;
                 }
+            }
+
+            if (debug) {
+                System.out.println("Blueprint Replacement: " + uAssetMappingContent.getBlueprintOrigin());
             }
 
             if (uAssetMappingContent.getBlueprintOrigin() == null) {
@@ -363,6 +376,29 @@ public class DumpModCommand extends Command {
                             + "."
                             + uAssetMappingContent.getClassReplacement()
             );
+
+            // properties offset + 1?
+            //System.out.println("Count: " + ((archive.limit() - propertiesOffset) / 4));
+
+            /* read actual properties */
+            /*for (int i = 2312, val; i < (2596 - 4); i += 4) {
+                archive.position(i);
+                val = archive.getInt();
+
+                System.out.println("at " + i + " (4 bytes) = " + val + (val > 0 && val < names.size()? (" => " + names.get(val)): ""));
+            }**/
+
+            //System.out.println("Leftover data:");
+
+            /* read leftover data from properties container */
+            /*for (int i = propertiesOffset, val; i < (archive.limit() - 4); i += 4) {
+                if (i < 2312 || i >= 2596) {
+                    archive.position(i);
+                    val = archive.getInt();
+
+                    System.out.println("at " + i + " (4 bytes) = " + val + (val > 0 && val < names.size()? (" => " + names.get(val)): ""));
+                }
+            }**/
 
             return uAssetMappingContent;
         }
