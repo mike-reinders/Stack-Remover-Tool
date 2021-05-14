@@ -49,7 +49,7 @@ public class HelpCommand extends Command {
                     strBuilder.append(System.lineSeparator());
                     strBuilder.append("        ");
                     if (description.length() > 0) {
-                        strBuilder.append(String.format("%-20s", commandName));
+                        strBuilder.append(String.format("%-30s", commandName));
                         strBuilder.append(description);
                     } else {
                         strBuilder.append(commandName);
