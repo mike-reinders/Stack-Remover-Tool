@@ -26,7 +26,7 @@ public class MapClassesCommand extends Command {
     }
 
     public String getUsage() {
-        StringBuilder usage = new StringBuilder("[--match-alert=<regex>] [--mapping=<name>] [--debug] [source file] [target file]" + System.lineSeparator()
+        StringBuilder usage = new StringBuilder("[--match-alert=<regex>]  [--from-mapping=<name>] [--to-mapping=<name>] [--only-remapping] [--debug] [source file] [target file]" + System.lineSeparator()
                 + "Available Mappings:");
 
         for (MappingInterface mapping : Mapping.getMappings()) {

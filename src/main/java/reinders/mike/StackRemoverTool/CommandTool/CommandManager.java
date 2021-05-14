@@ -11,6 +11,7 @@ public class CommandManager extends reinders.mike.StackRemoverTool.Command.Comma
     public static final Command HELP_COMMAND = new HelpCommand();
     public static final Command DUMP_MOD_COMMAND = new DumpModCommand();
     public static final Command FIND_STACKS_COMMAND = new FindStacksCommand();
+    public static final Command DEBUG_MAX_QUANTITIES_COMMAND = new DebugMaxQuantitiesCommand();
 
     public CommandManager() {
         this.register(CommandManager.FIND_CLASSES_COMMAND);
@@ -19,6 +20,7 @@ public class CommandManager extends reinders.mike.StackRemoverTool.Command.Comma
         this.register(CommandManager.MAP_REFERENCES_COMMAND);
         this.register(CommandManager.DUMP_MOD_COMMAND);
         this.register(CommandManager.FIND_STACKS_COMMAND);
+        this.register(CommandManager.DEBUG_MAX_QUANTITIES_COMMAND);
         this.register(CommandManager.HELP_COMMAND);
     }
 

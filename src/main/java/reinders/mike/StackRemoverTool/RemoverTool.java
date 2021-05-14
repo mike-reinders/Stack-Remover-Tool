@@ -5,7 +5,7 @@ import reinders.mike.StackRemoverTool.Util.ThrowableC;
 
 public final class RemoverTool {
 
-    public static final String STACK_REMOVER_TOOL_VERSION = "1.1";
+    public static final String STACK_REMOVER_TOOL_VERSION = "1.3";
 
     private static reinders.mike.StackRemoverTool.Command.CommandManager commandManager = new CommandManager();
 

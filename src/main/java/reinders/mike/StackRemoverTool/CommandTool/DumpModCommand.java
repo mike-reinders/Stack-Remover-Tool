@@ -31,7 +31,7 @@ public class DumpModCommand extends Command {
 
     @Override
     public String getUsage() {
-        return "[mod directory]";
+        return "[mod directory] [?pattern]";
     }
 
     @Override
