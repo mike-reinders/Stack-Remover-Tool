@@ -7,15 +7,15 @@ set interactive=1
 echo %cmdcmdline% | find /i "%~0" >nul
 if not errorlevel 1 set interactive=0
 
-if not exist StackRemoverTool.jar (
-    echo StackRemoverTool.jar not found.
+if not exist stack-remover-tool.jar (
+    echo stack-remover-tool.jar not found.
 ) else (
     java -version >NUL 2>&1
     if not errorlevel 0 (
         echo Java seems to be not properly installed. The JAVA_HOME environment variable might not be setup correctly.
     )
 
-    java -jar StackRemoverTool.jar %*
+    java -jar stack-remover-tool.jar %*
 )
 
 echo.
